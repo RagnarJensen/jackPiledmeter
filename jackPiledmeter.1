@@ -1,0 +1,90 @@
+.TH jackPiledmeter "1" 0.1 "April 2014"
+.SH NAME
+jackPiledmeter \- LED Digital Peak Meter for JACK on the Raspberry Pi 
+.SH SYNOPSYS
+\fBjackPiledmeter\fR
+[ \-1 \fIfirst_led\fR ]
+[ \-5 ]
+[ \-c \fIdecay_speed\fR ]
+[ \-d ]
+[ \-f \fIfreqency\fR ]
+[ \-i ]
+[ \-n \fInumber_leds\fR ]
+[ \-o ]
+[ \-p ]
+[ \-r \fIref_level\fR ]
+[ \-s ]
+[ \fI<port>\fR, ... ]
+.br
+\fBjackPiledmeter\fR
+\-h
+
+.SH DESCRIPTION
+\fBjackPiledmeter\fR is a basic DPM (Digital Peak Meter) for JACK on the Raspberry Pi.
+Connect LEDs to consecutive GPIO pins (using the wiringPi numbering scheme - physical pins 11, 12, 13, 15, 16, 18, 22, 7 ... on the P1 header)\fR.
+Alternatively, connect LEDs to one or more 74x595 daisy-chained shift registers (-5 flag). This uses 3 consecutive GPIO pins.
+
+The port parameter is optional. When missing, you have to connect the meter to a Jack input port manually. 
+If more than one port is specified, the inputs are mixed.
+
+.SH OPTIONS
+.TP
+\fB\-1 \fI first_led \fR
+.br
+GPIO pin where the first LED is connected, using the wiringPi numbering scheme. Default is \fB0\fR.
+If using shift registers, denotes the first of the three GPIO pins used. First pin is data, second is clock and third is latch.
+.TP
+\fB\-5\fR
+.br
+LEDs are connected to 74x595 shift register(s).
+.TP
+\fB\-c \fI decay_speed \fR
+.br
+Determines how fast the LEDs go out when the signal level decreases. Too fast can make the meter look jittery. Valid decay rates are 1-10. Default is \fB4\fR. A value of 0 disables decay, i.e. the LEDs go out as fast as possible.
+.TP
+\fB\-d\fR
+Detach from the terminal and become a daemon.
+.TP
+\fB\-f \fI freqency \fR
+.br
+How many times per second to refresh the meter. Default is \fB40\fR.
+.TP
+\fB\-i\fR
+.br
+Read dB values from standard input instead of from a Jack server.
+.TP
+\fB\-n \fI number_leds \fR
+.br
+How many LEDs that are connected. Default is \fB8\fR.
+.TP
+\fB\-o\fR
+.br
+Send dB values to standard output instead of showing them on the LEDs.
+.TP
+\fB\-p\fR
+.br
+Enables peak hold.
+.TP
+\fB\-r \fI ref_level \fR
+.br
+The reference signal level for 0dB (full scale) on the meter.
+.TP
+\fB\-s\fR
+A single wandering light instead of a growing/shrinking bar of lights. Sets the -c option to 2.
+
+.SH NOTES:
+.br
+The \fB\-i\fR and \fB\-o\fR options make it possible to pipe dB values from one instance of jackPiledmeter to another. In combination with e.g. netcat(1) or socat(1) you can have the Jack server on one host and the LED display on another.
+.SH SEE ALSO:
+.br
+http://wiringpi.com/
+.br
+http://jackaudio.org/
+
+.SH AUTHORS
+Ragnar Jensen <jackpiledmeter@jensenjensen.com>
+.br
+Based on jackmeter by Nicholas J. Humfrey
+.br
+http://www.aelius.com/njh/jackmeter/
+
