@@ -9,3 +9,6 @@ Example
     ./jackPiledmeter system:capture_1
     Registering as 'ledmeter'.
     Connecting 'system:capture_1' to 'ledmeter:in'...
+    
+    More info on the Wiki - https://github.com/RagnarJensen/jackPiledmeter/wiki
+    
